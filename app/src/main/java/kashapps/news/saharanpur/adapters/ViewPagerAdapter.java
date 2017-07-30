@@ -26,9 +26,12 @@ public class ViewPagerAdapter extends PagerAdapter {
     private Context mContext;
     private List<FeedContent> feedContents;
 
-    public ViewPagerAdapter(Context mContext, List<FeedContent> feedContents) {
+    private PagerItemClickListener pagerItemClickListener;
+
+    public ViewPagerAdapter(Context mContext, List<FeedContent> feedContents, PagerItemClickListener pagerItemClickListener) {
         this.mContext = mContext;
         this.feedContents = feedContents;
+        this.pagerItemClickListener = pagerItemClickListener;
     }
 
     @Override
@@ -42,7 +45,7 @@ public class ViewPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(ViewGroup container, final int position) {
         FeedContent feedContent = feedContents.get(position);
         View itemView = LayoutInflater.from(mContext).inflate(R.layout.item_pager, container, false);
 
@@ -50,9 +53,14 @@ public class ViewPagerAdapter extends PagerAdapter {
         TextView title = (TextView)itemView.findViewById(R.id.title_pager_item);
         Picasso.with(mContext).load(feedContent.getImage()).into(imageView);
         title.setText(feedContent.getTitle());
-        Log.e("************image URL: " ,feedContent.getImage());
-        Log.e("************image URL: " ,feedContent.getTitle());
         container.addView(itemView);
+
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pagerItemClickListener.onPagerItemClick(view, position);
+            }
+        });
 
         return itemView;
     }
@@ -60,5 +68,9 @@ public class ViewPagerAdapter extends PagerAdapter {
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((RelativeLayout)object);
+    }
+
+    public interface PagerItemClickListener {
+        void onPagerItemClick(View view, int position);
     }
 }

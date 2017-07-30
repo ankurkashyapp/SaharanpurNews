@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="kashapps.news.saharanpur.activities.NewsArticleViewActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark"
+            android:elevation="0dp"
+            app:title="Saharanpur"
+            app:layout_scrollFlags="scroll|enterAlways"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/whitishGrey"
+            app:layout_scrollFlags="scroll|enterAlways"/>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/feed_headline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance = "@style/Base.TextAppearance.AppCompat.Headline"
+                android:textStyle="bold"
+                android:textColor="@color/blackDark"
+                android:padding="10dp"/>
+
+            <TextView
+                android:id="@+id/news_credit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="@color/blackLight"
+                android:layout_marginLeft="5dp"
+                android:layout_below="@+id/feed_headline"
+                android:layout_marginTop="3dp"/>
+
+            <TextView
+                android:id="@+id/feed_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/news_credit"
+                android:layout_below="@+id/feed_headline"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="3dp"/>
+
+            <ImageView
+                android:id="@+id/feed_image"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:scaleType="centerCrop"
+                android:layout_below="@+id/feed_date"/>
+
+            <TextView
+                android:id="@+id/feed_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:padding="10dp"
+                android:layout_below="@+id/feed_image"/>
+
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

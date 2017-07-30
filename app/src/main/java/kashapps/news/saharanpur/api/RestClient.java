@@ -16,6 +16,7 @@ public class RestClient {
 
     private static ApiCall REST_CLIENT=null;
     private static String ROOT = "http://peaceful-hamlet-49025.herokuapp.com/api/v1/";
+    //private static String ROOT = "http://192.168.1.10:3000/api/v1/";
 
     static {
         setupRestClient();
@@ -33,8 +34,8 @@ public class RestClient {
         OkHttpClient client = new OkHttpClient
                     .Builder()
                     .addInterceptor(interceptor)
-                    .connectTimeout(12, TimeUnit.SECONDS)
-                    .readTimeout(12, TimeUnit.SECONDS)
+                    .connectTimeout(20, TimeUnit.SECONDS)
+                    .readTimeout(20, TimeUnit.SECONDS)
                     .build();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(ROOT)

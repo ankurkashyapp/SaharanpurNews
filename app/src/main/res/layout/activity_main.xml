@@ -41,7 +41,11 @@
                 android:text="This is header text"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
-                app:layout_scrollFlags="scroll|enterAlways"/>
+                android:singleLine="true"
+                app:layout_scrollFlags="scroll|enterAlways"
+                android:ellipsize="marquee"
+                android:fadingEdge="horizontal"
+                android:marqueeRepeatLimit="marquee_forever" />
 
         </android.support.design.widget.AppBarLayout>
 

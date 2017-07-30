@@ -25,14 +25,21 @@ public class NewsFeedAdapter extends BaseSwipeAdapter<BaseSwipeAdapter.BaseSwipe
     private static final int TYPE_PAGER = 0;
     private static final int TYPE_FEED_LIST = 1;
 
+    public static final int PAGER_ITEMS_COUNT = 4;
+
     private int currentPagerItem = 0;
 
     private Context context;
     private NewsFeedResponse feedResponse;
 
-    public NewsFeedAdapter(Context context, NewsFeedResponse feedResponse) {
+    private FeedItemClickListener feedItemClickListener;
+    private ViewPagerAdapter.PagerItemClickListener pagerItemClickListener;
+
+    public NewsFeedAdapter(Context context, NewsFeedResponse feedResponse, FeedItemClickListener feedItemClickListener, ViewPagerAdapter.PagerItemClickListener pagerItemClickListener) {
         this.context = context;
         this.feedResponse = feedResponse;
+        this.feedItemClickListener = feedItemClickListener;
+        this.pagerItemClickListener = pagerItemClickListener;
     }
 
     public void setNewsFeedResponse(NewsFeedResponse feedResponse) {
@@ -48,21 +55,22 @@ public class NewsFeedAdapter extends BaseSwipeAdapter<BaseSwipeAdapter.BaseSwipe
         }
         else {
             view = LayoutInflater.from(context).inflate(R.layout.item_feed_view, parent, false);
-            return new FeedItemViewHolder(view);
+            return new FeedItemViewHolder(view, feedItemClickListener);
         }
     }
 
     @Override
     public void onBindViewHolder(BaseSwipeableViewHolder holder, int position) {
-        FeedContent feedContent = feedResponse.getContent().get(position);
+
         if (position == 0) {
             FeedPagerViewHolder pagerViewHolder = (FeedPagerViewHolder)holder;
-            ViewPagerAdapter mAdapter = new ViewPagerAdapter(context, feedResponse.getContent().subList(0, 4));
+            ViewPagerAdapter mAdapter = new ViewPagerAdapter(context, feedResponse.getContent().subList(0, PAGER_ITEMS_COUNT), pagerItemClickListener);
             pagerViewHolder.intro_images.setAdapter(mAdapter);
             pagerViewHolder.intro_images.setCurrentItem(currentPagerItem);
             pagerViewHolder.setUiPageViewController(mAdapter);
         }
         else {
+            FeedContent feedContent = feedResponse.getContent().get(position + PAGER_ITEMS_COUNT - 1);
             FeedItemViewHolder itemViewHolder = (FeedItemViewHolder)holder;
             Picasso.with(context).load(feedContent.getImage()).into(itemViewHolder.imageView);
             itemViewHolder.title.setText(feedContent.getTitle());
@@ -81,7 +89,7 @@ public class NewsFeedAdapter extends BaseSwipeAdapter<BaseSwipeAdapter.BaseSwipe
 
     @Override
     public int getItemCount() {
-        return feedResponse.getContent().size();
+        return feedResponse.getContent().size() - PAGER_ITEMS_COUNT + 1;
     }
 
     private class FeedPagerViewHolder extends BaseSwipeableViewHolder implements ViewPager.OnPageChangeListener   {
@@ -101,7 +109,6 @@ public class NewsFeedAdapter extends BaseSwipeAdapter<BaseSwipeAdapter.BaseSwipe
 
             pager_indicator = (LinearLayout) view.findViewById(R.id.viewPagerCountDots);
             intro_images.setOnPageChangeListener(this);
-            //setUiPageViewController(get);
         }
 
         public void setUiPageViewController(ViewPagerAdapter mAdapter) {
@@ -153,12 +160,22 @@ public class NewsFeedAdapter extends BaseSwipeAdapter<BaseSwipeAdapter.BaseSwipe
         public TextView summary;
         public TextView feedDate;
 
-        public FeedItemViewHolder(View view) {
+        public FeedItemViewHolder(View view, final FeedItemClickListener feedItemClickListener) {
             super(view);
             imageView = (ImageView)view.findViewById(R.id.feed_image);
             title = (TextView) view.findViewById(R.id.feed_title);
             summary = (TextView)view.findViewById(R.id.feed_summary);
             feedDate = (TextView)view.findViewById(R.id.feed_date);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    feedItemClickListener.onFeedItemClick(view);
+                }
+            });
         }
+    }
+
+    public interface FeedItemClickListener {
+        void onFeedItemClick(View view);
     }
 }
