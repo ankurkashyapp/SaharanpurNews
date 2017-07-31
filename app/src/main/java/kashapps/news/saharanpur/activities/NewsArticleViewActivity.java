@@ -2,6 +2,7 @@ package kashapps.news.saharanpur.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +18,7 @@ public class NewsArticleViewActivity extends AppCompatActivity {
 
     private FeedContent newsArticle;
 
+    private Toolbar toolbar;
     private TextView headline;
     private TextView articleDate;
     private ImageView articleImage;
@@ -34,10 +36,15 @@ public class NewsArticleViewActivity extends AppCompatActivity {
 
     private void initViews()
     {
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
         headline = (TextView)findViewById(R.id.feed_headline);
         articleDate = (TextView)findViewById(R.id.feed_date);
         articleImage = (ImageView) findViewById(R.id.feed_image);
         articleDetail = (TextView)findViewById(R.id.feed_detail);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     private void loadNewsArticle() {

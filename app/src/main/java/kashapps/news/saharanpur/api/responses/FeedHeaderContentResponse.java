@@ -1,5 +1,6 @@
 package kashapps.news.saharanpur.api.responses;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -7,16 +8,16 @@ import java.util.List;
  */
 
 public class FeedHeaderContentResponse {
-    private String messageType;
+    private String message_type;
     private ThoughtResponse thought;
     private List<AppVersionResponse> app_version;
 
     public String getMessageType() {
-        return messageType;
+        return message_type;
     }
 
-    public void setMessageType(String messageType) {
-        this.messageType = messageType;
+    public void setMessageType(String message_type) {
+        this.message_type = message_type;
     }
 
     public ThoughtResponse getThought() {

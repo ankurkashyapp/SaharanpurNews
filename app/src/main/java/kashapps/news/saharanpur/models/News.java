@@ -21,6 +21,7 @@ public class News {
     public static void loadNewsFeeds(String city, String page, final FeedsLoaded feedsLoaded) {
         Call<NewsFeedResponse> call = RestClient.get().getNewsFeed(city, page);
         call.enqueue(new Callback<NewsFeedResponse>() {
+            int i=1;
             @Override
             public void onResponse(Call<NewsFeedResponse> call, Response<NewsFeedResponse> response) {
                 feedsLoaded.onFeedsLoadSuccess(response.body());
@@ -29,7 +30,16 @@ public class News {
             @Override
             public void onFailure(Call<NewsFeedResponse> call, Throwable t) {
                 Log.e("*********Failure", "Failure");
-                feedsLoaded.onNewsLoadFailure();
+                if (i<=3) {
+                    Log.e("***********Inside RETRY" , ""+i);
+                    call.clone().enqueue(this);
+                }
+                if (i > 3) {
+                    Log.e("***Inside OnLoadFailure" , ""+i);
+                    feedsLoaded.onNewsLoadFailure();
+                }
+                i++;
+
             }
         });
     }
@@ -37,6 +47,7 @@ public class News {
     public static void getSingleNews(String city, String newsId, final SingleNewsLoad singleNewsLoad) {
         Call<FeedContent> call = RestClient.get().getSingleNewsArticle(city, newsId);
         call.enqueue(new Callback<FeedContent>() {
+            int i=1;
             @Override
             public void onResponse(Call<FeedContent> call, Response<FeedContent> response) {
                 singleNewsLoad.onSingleNewsSuccess(response.body());
@@ -44,7 +55,16 @@ public class News {
 
             @Override
             public void onFailure(Call<FeedContent> call, Throwable t) {
-                singleNewsLoad.onSingleNewsFailure();
+                if (i<=3) {
+                    Log.e("***********Inside RETRY" , ""+i);
+                    call.clone().enqueue(this);
+                }
+                if (i > 3) {
+                    Log.e("***Inside OnLoadFailure" , ""+i);
+                    singleNewsLoad.onSingleNewsFailure();
+                }
+                i++;
+
             }
         });
     }
@@ -52,6 +72,7 @@ public class News {
     public static void getFeedHeaderContent(String appName, String installedVersion, final FeedHeaderLoad feedHeaderLoad) {
         Call<FeedHeaderContentResponse> call = RestClient.get().getFeedHeaderResponse(appName, installedVersion);
         call.enqueue(new Callback<FeedHeaderContentResponse>() {
+            int i=1;
             @Override
             public void onResponse(Call<FeedHeaderContentResponse> call, Response<FeedHeaderContentResponse> response) {
                 feedHeaderLoad.onFeedHeaderContentLoaded(response.body());
@@ -59,7 +80,15 @@ public class News {
 
             @Override
             public void onFailure(Call<FeedHeaderContentResponse> call, Throwable t) {
-                feedHeaderLoad.onFeedNotLoaded();
+                if (i<=3) {
+                    Log.e("***********Inside RETRY" , ""+i);
+                    call.clone().enqueue(this);
+                }
+                if (i > 3) {
+                    Log.e("***Inside OnLoadFailure" , ""+i);
+                    feedHeaderLoad.onFeedNotLoaded();
+                }
+                i++;
             }
         });
     }

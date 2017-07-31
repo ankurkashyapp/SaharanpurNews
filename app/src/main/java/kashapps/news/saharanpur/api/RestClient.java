@@ -34,8 +34,8 @@ public class RestClient {
         OkHttpClient client = new OkHttpClient
                     .Builder()
                     .addInterceptor(interceptor)
-                    .connectTimeout(20, TimeUnit.SECONDS)
-                    .readTimeout(20, TimeUnit.SECONDS)
+                    .connectTimeout(10, TimeUnit.SECONDS)
+                    .readTimeout(10, TimeUnit.SECONDS)
                     .build();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(ROOT)

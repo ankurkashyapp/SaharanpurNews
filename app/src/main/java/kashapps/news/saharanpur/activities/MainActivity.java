@@ -42,22 +42,32 @@ public class MainActivity extends AppCompatActivity implements NewsFeedAdapter.F
     private Button logout;
     private TextView headerContent;
 
-    private ProgressDialog progressDialog;
-
-    private String imageUrl, imageName;
-
     private NewsFeedResponse newsFeedResponse;
     private NewsFeedAdapter feedAdapter;
+    private FeedHeaderContentResponse feedHeaderContent;
+
+    private String messageType;
+    private String thought;
+    private String author;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getDataFromSplashScreen();
+        if (messageType.equals("ALERT"))
+            setTheme(R.style.RedTheme);
         setContentView(R.layout.activity_main);
         initViews();
         loadFeeds();
         loadFeedHeaderContent();
+    }
 
+    private void getDataFromSplashScreen() {
+        Intent intent = getIntent();
+        messageType = intent.getStringExtra("MESSAGE_TYPE");
+        thought = intent.getStringExtra("THOUGHT");
+        author = intent.getStringExtra("author");
     }
 
     private void initViews() {
@@ -113,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements NewsFeedAdapter.F
     }
 
     private void loadFeedHeaderContent() {
-        News.getFeedHeaderContent("Saharanpur News", "1", new News.FeedHeaderLoad() {
+        /*News.getFeedHeaderContent("Saharanpur News", "1", new News.FeedHeaderLoad() {
             @Override
             public void onFeedHeaderContentLoaded(FeedHeaderContentResponse contentResponse) {
                 headerContent.setText(contentResponse.getThought().getThought_of_day());
@@ -123,7 +133,11 @@ public class MainActivity extends AppCompatActivity implements NewsFeedAdapter.F
             public void onFeedNotLoaded() {
                 Log.e("********************", "Failre in header");
             }
-        });
+        });*/
+        if (messageType.equals("ALERT"))
+            headerContent.setText("ALERT");
+        else
+            headerContent.setText(thought);
     }
 
     void setupDrawerToggle() {
@@ -136,6 +150,7 @@ public class MainActivity extends AppCompatActivity implements NewsFeedAdapter.F
         int position = feedsView.getRecyclerView().getChildLayoutPosition(view);
         FeedContent feedContent = newsFeedResponse.getContent().get(position + NewsFeedAdapter.PAGER_ITEMS_COUNT - 1);
         Toast.makeText(MainActivity.this, feedContent.getTitle(), Toast.LENGTH_SHORT).show();
+
         openNewsArticle(feedContent);
 
     }
