@@ -12,6 +12,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +32,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements NewsFeedAdapter.FeedItemClickListener, ViewPagerAdapter.PagerItemClickListener {
+public class MainActivity extends AppCompatActivity implements DrawerLayout.DrawerListener, View.OnClickListener, NewsFeedAdapter.FeedItemClickListener, ViewPagerAdapter.PagerItemClickListener {
 
     private int page;
 
@@ -49,6 +51,9 @@ public class MainActivity extends AppCompatActivity implements NewsFeedAdapter.F
     private String messageType;
     private String thought;
     private String author;
+
+    private RelativeLayout drawerView;
+    private LinearLayout jokesMenu;
 
 
     @Override
@@ -73,8 +78,9 @@ public class MainActivity extends AppCompatActivity implements NewsFeedAdapter.F
     private void initViews() {
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         drawerLayout = (DrawerLayout)findViewById(R.id.main_drawer);
-        //recyclerView = (RecyclerView)findViewById(R.id.drawer_view);
         feedsView = (SuperRecyclerView)findViewById(R.id.feeds);
+        drawerView = (RelativeLayout)findViewById(R.id.drawer_view);
+        jokesMenu = (LinearLayout)findViewById(R.id.jokes);
         headerContent = (TextView)findViewById(R.id.header_text);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -83,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements NewsFeedAdapter.F
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         setupDrawerToggle();
+        drawerLayout.setDrawerListener(this);
     }
 
     private void loadFeeds() {
@@ -158,6 +165,8 @@ public class MainActivity extends AppCompatActivity implements NewsFeedAdapter.F
     @Override
     public void onPagerItemClick(View view, int position) {
         Toast.makeText(MainActivity.this, newsFeedResponse.getContent().get(position).getTitle(), Toast.LENGTH_SHORT).show();
+        FeedContent feedContent = newsFeedResponse.getContent().get(position);
+        openNewsArticle(feedContent);
     }
 
     private void openNewsArticle(FeedContent feedContent) {
@@ -166,5 +175,30 @@ public class MainActivity extends AppCompatActivity implements NewsFeedAdapter.F
         Intent intent = new Intent(MainActivity.this, NewsArticleViewActivity.class);
         intent.putExtra(NewsArticleViewActivity.NEWS_ID, newsId);
         startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View view) {
+
+    }
+
+    @Override
+    public void onDrawerSlide(View drawerView, float slideOffset) {
+
+    }
+
+    @Override
+    public void onDrawerOpened(View drawerView) {
+
+    }
+
+    @Override
+    public void onDrawerClosed(View drawerView) {
+
+    }
+
+    @Override
+    public void onDrawerStateChanged(int newState) {
+
     }
 }

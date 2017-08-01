@@ -61,26 +61,170 @@
     </android.support.design.widget.CoordinatorLayout>
 
     <RelativeLayout
+        android:id="@+id/drawer_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="left"
-        android:background="@color/colorAccent">
+        android:background="@color/colorPrimary"
+        >
 
-        <!--<android.support.v7.widget.RecyclerView
-            android:id="@+id/drawer_view"
+        <LinearLayout
+            android:id="@+id/drawer_header"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/user_logout"
-            android:paddingBottom="5dp"/>-->
+            android:layout_height="150dp"
+            android:background="@color/colorPrimaryDark"
+            android:orientation="horizontal"></LinearLayout>
 
-        <Button
-            android:id="@+id/user_logout"
+        <LinearLayout
+            android:id="@+id/jokes"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="LOGOUT"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:layout_alignParentBottom="true"
-            android:paddingRight="20dp"/>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:layout_below="@+id/drawer_header"
+            android:background="@drawable/selector_primary_normal"
+            android:clickable="true">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@mipmap/joke"
+                android:tint="@color/greyLight"
+                android:layout_gravity="center_vertical"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="हंसी मजाक"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:layout_marginLeft="15dp"
+                android:layout_gravity="center_vertical"
+                android:textColor="@android:color/white"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/entertainment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:layout_below="@+id/jokes"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/selector_primary_normal"
+            android:clickable="true">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@mipmap/entertainment"
+                android:tint="@color/greyLight"
+                android:layout_gravity="center_vertical"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="मनोरंजन"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:layout_marginLeft="15dp"
+                android:layout_gravity="center_vertical"
+                android:textColor="@android:color/white"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/photo_gallery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:layout_below="@+id/entertainment"
+            android:background="@drawable/selector_primary_normal"
+            android:clickable="true">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@mipmap/photo_gallery"
+                android:tint="@color/greyLight"
+                android:layout_gravity="center_vertical"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="फोटो गैलरी"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:layout_marginLeft="15dp"
+                android:layout_gravity="center_vertical"
+                android:textColor="@android:color/white"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/share_app"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:layout_below="@+id/photo_gallery"
+            android:background="@drawable/selector_primary_normal"
+            android:clickable="true">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@mipmap/share"
+                android:tint="@color/greyLight"
+                android:layout_gravity="center_vertical"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ऐप रेट करें"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:layout_marginLeft="15dp"
+                android:textColor="@android:color/white"
+                android:layout_gravity="center_vertical"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/rate_app"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:layout_below="@+id/share_app"
+            android:background="@drawable/selector_primary_normal"
+            android:clickable="true">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@mipmap/like"
+                android:tint="@color/greyLight"
+                android:layout_gravity="center_vertical"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ऐप शेयर करें"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:layout_marginLeft="15dp"
+                android:textColor="@android:color/white"
+                android:layout_gravity="center_vertical"/>
+        </LinearLayout>
 
     </RelativeLayout>
 

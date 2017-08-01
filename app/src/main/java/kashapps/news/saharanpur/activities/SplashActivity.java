@@ -33,11 +33,17 @@ public class SplashActivity extends AppCompatActivity {
                 intent.putExtra("MESSAGE_TYPE", contentResponse.getMessageType());
                 intent.putExtra("THOUGHT", contentResponse.getThought().getThought_of_day());
                 intent.putExtra("AUTHOR", contentResponse.getThought().getAuthor());
-                try {
-                    Thread.sleep(5000l);
+                //Thread thread = new Thread();
+                /*try {
+
+                    //thread.start();
+                    //thread.wait(5000l);
                 }catch (InterruptedException e) {
 
                 }
+                finally {
+                    //thread.stop();
+                }*/
                 startActivity(intent);
                 finish();
             }
