@@ -1,9 +1,13 @@
 package kashapps.news.saharanpur.activities;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -19,6 +23,7 @@ public class NewsArticleViewActivity extends AppCompatActivity {
     private FeedContent newsArticle;
 
     private Toolbar toolbar;
+    private ProgressBar loading;
     private TextView headline;
     private TextView articleDate;
     private ImageView articleImage;
@@ -37,6 +42,7 @@ public class NewsArticleViewActivity extends AppCompatActivity {
     private void initViews()
     {
         toolbar = (Toolbar)findViewById(R.id.toolbar);
+        loading = (ProgressBar)findViewById(R.id.loading);
         headline = (TextView)findViewById(R.id.feed_headline);
         articleDate = (TextView)findViewById(R.id.feed_date);
         articleImage = (ImageView) findViewById(R.id.feed_image);
@@ -45,6 +51,15 @@ public class NewsArticleViewActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NewsArticleViewActivity.super.onBackPressed();
+            }
+        });
+
+        loading.setVisibility(View.VISIBLE);
+        loading.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
     }
 
     private void loadNewsArticle() {
@@ -53,11 +68,12 @@ public class NewsArticleViewActivity extends AppCompatActivity {
             public void onSingleNewsSuccess(FeedContent feedContent) {
                 newsArticle = feedContent;
                 setupArticleData();
+                loading.setVisibility(View.GONE);
             }
 
             @Override
             public void onSingleNewsFailure() {
-
+                loading.setVisibility(View.GONE);
             }
         });
     }

@@ -3,6 +3,7 @@ package kashapps.news.saharanpur.activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,8 +11,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     private SuperRecyclerView feedsView;
     private Button logout;
     private TextView headerContent;
+    private ImageView headerImage;
 
     private NewsFeedResponse newsFeedResponse;
     private NewsFeedAdapter feedAdapter;
@@ -82,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         drawerView = (RelativeLayout)findViewById(R.id.drawer_view);
         jokesMenu = (LinearLayout)findViewById(R.id.jokes);
         headerContent = (TextView)findViewById(R.id.header_text);
+        headerImage = (ImageView)findViewById(R.id.header_image);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         feedsView.setLayoutManager(layoutManager);
@@ -90,6 +95,13 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         setupDrawerToggle();
         drawerLayout.setDrawerListener(this);
+        jokesMenu.setOnClickListener(this);
+        feedsView.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadFeeds();
+            }
+        });
     }
 
     private void loadFeeds() {
@@ -141,10 +153,13 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                 Log.e("********************", "Failre in header");
             }
         });*/
-        if (messageType.equals("ALERT"))
-            headerContent.setText("ALERT");
-        else
-            headerContent.setText(thought);
+        if (messageType.equals("ALERT")) {
+            headerImage.setVisibility(View.VISIBLE);
+            headerContent.setText("ध्यान दें! आप इस ऐप के पुराने संस्करण चला रहे हैं, कृपया ऐप अपडेट करे..");
+        }
+        else {
+            headerContent.setText("आज का शुभ विचार: " + thought);
+        }
     }
 
     void setupDrawerToggle() {
@@ -179,7 +194,11 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
     @Override
     public void onClick(View view) {
-
+        if (view == jokesMenu) {
+            drawerLayout.closeDrawer(Gravity.LEFT);
+            Intent intent = new Intent(MainActivity.this, JokesActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override

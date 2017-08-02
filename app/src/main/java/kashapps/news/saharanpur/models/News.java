@@ -2,12 +2,16 @@ package kashapps.news.saharanpur.models;
 
 import android.util.Log;
 
+import java.util.List;
+
 import kashapps.news.saharanpur.activities.MainActivity;
 import kashapps.news.saharanpur.adapters.NewsFeedAdapter;
 import kashapps.news.saharanpur.api.RestClient;
 import kashapps.news.saharanpur.api.responses.FeedContent;
 import kashapps.news.saharanpur.api.responses.FeedHeaderContentResponse;
+import kashapps.news.saharanpur.api.responses.JokesResponse;
 import kashapps.news.saharanpur.api.responses.NewsFeedResponse;
+import kashapps.news.saharanpur.api.responses.SingleJokeResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -93,6 +97,36 @@ public class News {
         });
     }
 
+    public static void getAllJokes(String page, final JokesLoaded jokesLoaded) {
+        Call<List<JokesResponse>> call = RestClient.get().getAllJokes(page);
+        call.enqueue(new Callback<List<JokesResponse>>() {
+            @Override
+            public void onResponse(Call<List<JokesResponse>> call, Response<List<JokesResponse>> response) {
+                jokesLoaded.onJokesLoadSuccess(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<JokesResponse>> call, Throwable t) {
+                jokesLoaded.onJokesLoadFailure();
+            }
+        });
+    }
+
+    public static void getSingleJoke(String jokeId, final SingleJokeLoaded singleJokeLoaded) {
+        Call<SingleJokeResponse> call = RestClient.get().getSingleJoke(jokeId);
+        call.enqueue(new Callback<SingleJokeResponse>() {
+            @Override
+            public void onResponse(Call<SingleJokeResponse> call, Response<SingleJokeResponse> response) {
+                singleJokeLoaded.onSingleJokeLoadSuccess(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<SingleJokeResponse> call, Throwable t) {
+                singleJokeLoaded.onSingleJokeLoadFailure();
+            }
+        });
+    }
+
     public interface FeedsLoaded {
         void onFeedsLoadSuccess(NewsFeedResponse newsFeedResponse);
         void onNewsLoadFailure();
@@ -106,5 +140,15 @@ public class News {
     public interface FeedHeaderLoad {
         void onFeedHeaderContentLoaded(FeedHeaderContentResponse contentResponse);
         void onFeedNotLoaded();
+    }
+
+    public interface JokesLoaded {
+        void onJokesLoadSuccess(List<JokesResponse> jokesResponses);
+        void onJokesLoadFailure();
+    }
+
+    public interface SingleJokeLoaded {
+        void onSingleJokeLoadSuccess(SingleJokeResponse singleJokeResponse);
+        void onSingleJokeLoadFailure();
     }
 }
