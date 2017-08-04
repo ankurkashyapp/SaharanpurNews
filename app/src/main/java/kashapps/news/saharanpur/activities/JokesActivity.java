@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.malinskiy.superrecyclerview.OnMoreListener;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
 
@@ -29,13 +31,31 @@ public class JokesActivity extends AppCompatActivity implements JokesListAdapter
     private List<JokesResponse> jokesResponses;
     private JokesListAdapter jokesListAdapter;
 
+    private AdView adView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jokes);
         initViews();
         loadAllJokes();
+        initAds();
+    }
 
+    private void initAds() {
+        adView = (AdView) findViewById(R.id.bannerAdView);
+        displayBannerAd();
+    }
+
+    private void displayBannerAd() {
+        adView.loadAd(getAdRequest());
+    }
+
+    private AdRequest getAdRequest() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("404823443BAEF9FEA7ACD240FE2A003C")
+                .build();
+        return adRequest;
     }
 
     private void initViews() {

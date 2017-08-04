@@ -20,6 +20,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.malinskiy.superrecyclerview.OnMoreListener;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
 
@@ -35,9 +39,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements DrawerLayout.DrawerListener, View.OnClickListener, NewsFeedAdapter.FeedItemClickListener, ViewPagerAdapter.PagerItemClickListener {
+public class MainActivity extends AppCompatActivity implements DrawerLayout.DrawerListener, View.OnClickListener, NewsFeedAdapter.FeedItemClickListener, ViewPagerAdapter.PagerItemClickListener{
 
     private int page;
+    private int startAdFrequency = 1;
+    private int endAdFrequency = 3;
+    private int currentAdFrequency = 2;
+    private boolean shouldIncrease = true;
 
     private Toolbar toolbar;
     private ActionBarDrawerToggle drawerToggle;
@@ -50,15 +58,21 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
     private NewsFeedResponse newsFeedResponse;
     private NewsFeedAdapter feedAdapter;
+    private FeedContent feedContent;
     private FeedHeaderContentResponse feedHeaderContent;
 
     private String messageType;
     private String thought;
     private String author;
 
-    private RelativeLayout drawerView;
     private LinearLayout jokesMenu;
+    private LinearLayout entertainmentMenu;
+    private LinearLayout photoGalleryMenu;
+    private LinearLayout appShareMenu;
+    private LinearLayout rateAppMenu;
 
+    private AdView adView;
+    private InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +84,58 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         initViews();
         loadFeeds();
         loadFeedHeaderContent();
+        initAds();
+        //startActivity(new Intent(MainActivity.this, AppsAdsActivity.class));
+    }
+
+    private void initAds() {
+        adView = (AdView) findViewById(R.id.bannerAdView);
+        displayBannerAd();
+    }
+
+    private void displayBannerAd() {
+        adView.loadAd(getAdRequest());
+        initInterstitialAd();
+    }
+
+    private void initInterstitialAd() {
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.loadAd(getAdRequest());
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                Log.i("Ads", "onAdLoaded");
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                Log.i("Ads", "onAdFailedToLoad");
+            }
+
+            @Override
+            public void onAdOpened() {
+                Log.i("Ads", "onAdOpened");
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                Log.i("Ads", "onAdLeftApplication");
+            }
+
+            @Override
+            public void onAdClosed() {
+                mInterstitialAd.loadAd(getAdRequest());
+                openNewsArticle();
+            }
+        });
+    }
+
+    private AdRequest getAdRequest() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("404823443BAEF9FEA7ACD240FE2A003C")
+                .build();
+        return adRequest;
     }
 
     private void getDataFromSplashScreen() {
@@ -83,10 +149,14 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         drawerLayout = (DrawerLayout)findViewById(R.id.main_drawer);
         feedsView = (SuperRecyclerView)findViewById(R.id.feeds);
-        drawerView = (RelativeLayout)findViewById(R.id.drawer_view);
         jokesMenu = (LinearLayout)findViewById(R.id.jokes);
+        entertainmentMenu = (LinearLayout)findViewById(R.id.entertainment);
+        photoGalleryMenu = (LinearLayout)findViewById(R.id.photo_gallery);
+        appShareMenu = (LinearLayout)findViewById(R.id.share_app);
+        rateAppMenu = (LinearLayout)findViewById(R.id.rate_app);
         headerContent = (TextView)findViewById(R.id.header_text);
         headerImage = (ImageView)findViewById(R.id.header_image);
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         feedsView.setLayoutManager(layoutManager);
@@ -96,6 +166,10 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         setupDrawerToggle();
         drawerLayout.setDrawerListener(this);
         jokesMenu.setOnClickListener(this);
+        entertainmentMenu.setOnClickListener(this);
+        photoGalleryMenu.setOnClickListener(this);
+        appShareMenu.setOnClickListener(this);
+        rateAppMenu.setOnClickListener(this);
         feedsView.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -170,21 +244,29 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     @Override
     public void onFeedItemClick(View view) {
         int position = feedsView.getRecyclerView().getChildLayoutPosition(view);
-        FeedContent feedContent = newsFeedResponse.getContent().get(position + NewsFeedAdapter.PAGER_ITEMS_COUNT - 1);
+        this.feedContent = newsFeedResponse.getContent().get(position + NewsFeedAdapter.PAGER_ITEMS_COUNT - 1);
         Toast.makeText(MainActivity.this, feedContent.getTitle(), Toast.LENGTH_SHORT).show();
-
-        openNewsArticle(feedContent);
+        showInterstitialAd();
 
     }
 
     @Override
     public void onPagerItemClick(View view, int position) {
         Toast.makeText(MainActivity.this, newsFeedResponse.getContent().get(position).getTitle(), Toast.LENGTH_SHORT).show();
-        FeedContent feedContent = newsFeedResponse.getContent().get(position);
-        openNewsArticle(feedContent);
+        this.feedContent = newsFeedResponse.getContent().get(position);
+        showInterstitialAd();
     }
 
-    private void openNewsArticle(FeedContent feedContent) {
+    private void showInterstitialAd() {
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+
+        } else {
+            openNewsArticle();
+        }
+    }
+
+    private void openNewsArticle() {
         String link = feedContent.getLink();
         String newsId = link.substring(link.lastIndexOf('-')+1, link.lastIndexOf('.'));
         Intent intent = new Intent(MainActivity.this, NewsArticleViewActivity.class);
@@ -194,11 +276,44 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
     @Override
     public void onClick(View view) {
-        if (view == jokesMenu) {
-            drawerLayout.closeDrawer(Gravity.LEFT);
-            Intent intent = new Intent(MainActivity.this, JokesActivity.class);
-            startActivity(intent);
+        switch (view.getId()) {
+            case R.id.jokes: openJokesActivity();break;
+            case R.id.entertainment: openEntertainmentActivity(); break;
+            case R.id.photo_gallery: openPhotoGalleryActivity(); break;
+            case R.id.share_app: openSharingDialog();
         }
+    }
+
+    private void openJokesActivity() {
+        drawerLayout.closeDrawer(Gravity.LEFT);
+        Intent intent = new Intent(MainActivity.this, JokesActivity.class);
+        startActivity(intent);
+    }
+
+    private void openEntertainmentActivity() {
+        drawerLayout.closeDrawer(Gravity.LEFT);
+        Intent intent = new Intent(MainActivity.this, ComingSoonActivity.class);
+        intent.putExtra("TITLE", "मनोरंजन");
+        intent.putExtra("DESCRIPTION", "जुड़े रहिये हमारे साथ। जल्द आ रहा है मनोरंजन का खजाना अब सहारनपुर न्यूज ऐप में");
+        startActivity(intent);
+    }
+
+    private void openPhotoGalleryActivity() {
+        drawerLayout.closeDrawer(Gravity.LEFT);
+        Intent intent = new Intent(MainActivity.this, ComingSoonActivity.class);
+        intent.putExtra("TITLE", "फोटो गैलरी");
+        intent.putExtra("DESCRIPTION", "जुड़े रहिये हमारे साथ। फ़ोटो गैलरी में अब आप अपने सहारनपुर की सुंदर फोटोज को देख व अपलोड कर सकते है");
+        startActivity(intent);
+    }
+
+    private void openSharingDialog() {
+        drawerLayout.closeDrawer(Gravity.LEFT);
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        String shareBodyText = "Check it out. Your message goes here";
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,"ऐप शेयर करें");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
+        startActivity(Intent.createChooser(sharingIntent, "ऐप शेयर करें"));
     }
 
     @Override

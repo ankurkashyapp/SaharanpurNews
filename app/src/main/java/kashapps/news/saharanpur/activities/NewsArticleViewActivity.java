@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.squareup.picasso.Picasso;
 
 import kashapps.news.saharanpur.R;
@@ -29,6 +31,8 @@ public class NewsArticleViewActivity extends AppCompatActivity {
     private ImageView articleImage;
     private TextView articleDetail;
 
+    private AdView adView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +40,23 @@ public class NewsArticleViewActivity extends AppCompatActivity {
         newsId = getIntent().getStringExtra(NEWS_ID);
         initViews();
         loadNewsArticle();
+        initAds();
+    }
 
+    private void initAds() {
+        adView = (AdView) findViewById(R.id.bannerAdView);
+        displayBannerAd();
+    }
+
+    private void displayBannerAd() {
+        adView.loadAd(getAdRequest());
+    }
+
+    private AdRequest getAdRequest() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("404823443BAEF9FEA7ACD240FE2A003C")
+                .build();
+        return adRequest;
     }
 
     private void initViews()

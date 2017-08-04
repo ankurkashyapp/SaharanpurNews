@@ -31,6 +31,18 @@
         app:layout_empty="@layout/feed_view_empty"
         android:background="@color/greyLight"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:paddingTop="5dp"/>
+        android:paddingTop="5dp"
+        android:paddingBottom="50dp"/>
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/bannerAdView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        android:paddingBottom="50dp">
+    </com.google.android.gms.ads.AdView>
 
 </android.support.design.widget.CoordinatorLayout>

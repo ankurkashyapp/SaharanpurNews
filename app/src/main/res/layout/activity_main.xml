@@ -15,14 +15,14 @@
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:elevation="0dp">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark"
-                android:elevation="0dp"
                 app:layout_scrollFlags="scroll|enterAlways">
 
                 <RelativeLayout
@@ -88,8 +88,18 @@
             android:layout_height="match_parent"
             app:mainLayoutId="@layout/layout_recyclerview_verticalscroll"
             app:layout_empty="@layout/feed_view_empty"
-            android:background="@color/greyLight"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:paddingBottom="50dp"/>
+
+        <com.google.android.gms.ads.AdView
+            xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/bannerAdView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+        </com.google.android.gms.ads.AdView>
 
     </android.support.design.widget.CoordinatorLayout>
 
@@ -115,10 +125,10 @@
             android:orientation="horizontal"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
             android:layout_below="@+id/drawer_header"
-            android:background="@drawable/selector_primary_normal"
+            android:background="@drawable/ripple_effect_primary_color"
             android:clickable="true">
 
             <ImageView
@@ -148,8 +158,7 @@
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
             android:layout_below="@+id/jokes"
-            android:layout_marginTop="2dp"
-            android:background="@drawable/selector_primary_normal"
+            android:background="@drawable/ripple_effect_primary_color"
             android:clickable="true">
 
             <ImageView
@@ -179,7 +188,7 @@
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
             android:layout_below="@+id/entertainment"
-            android:background="@drawable/selector_primary_normal"
+            android:background="@drawable/ripple_effect_primary_color"
             android:clickable="true">
 
             <ImageView
@@ -209,7 +218,7 @@
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
             android:layout_below="@+id/photo_gallery"
-            android:background="@drawable/selector_primary_normal"
+            android:background="@drawable/ripple_effect_primary_color"
             android:clickable="true">
 
             <ImageView
@@ -222,7 +231,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ऐप रेट करें"
+                android:text="ऐप शेयर करें"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:layout_marginLeft="15dp"
                 android:textColor="@android:color/white"
@@ -239,7 +248,7 @@
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
             android:layout_below="@+id/share_app"
-            android:background="@drawable/selector_primary_normal"
+            android:background="@drawable/ripple_effect_primary_color"
             android:clickable="true">
 
             <ImageView
@@ -252,7 +261,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ऐप शेयर करें"
+                android:text="ऐप रेट करें"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:layout_marginLeft="15dp"
                 android:textColor="@android:color/white"
