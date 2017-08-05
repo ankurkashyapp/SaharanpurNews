@@ -1,6 +1,8 @@
 package kashapps.news.saharanpur.activities;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,7 +31,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void loadFeedHeaderContent() {
-        News.getFeedHeaderContent("Saharanpur News", "1", new News.FeedHeaderLoad() {
+        News.getFeedHeaderContent("Saharanpur News", getCurrentVersionCode(), new News.FeedHeaderLoad() {
             @Override
             public void onFeedHeaderContentLoaded(FeedHeaderContentResponse contentResponse) {
                 Intent intent = new Intent(SplashActivity.this, MainActivity.class);
@@ -58,5 +60,16 @@ public class SplashActivity extends AppCompatActivity {
             }
 
         });
+    }
+
+    private String getCurrentVersionCode() {
+        int versionCode = 1;
+        try {
+            PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
+            versionCode = pInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return String.valueOf(versionCode);
     }
 }

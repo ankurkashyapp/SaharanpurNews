@@ -28,9 +28,9 @@
             android:name=".activities.JokeViewActivity"
             android:parentActivityName=".activities.JokesActivity" />
         <activity
-            android:name=".activities.ComingSoonActivity"
-            android:parentActivityName=".activities.JokesActivity" />
-        <activity android:name=".activities.AppsAdsActivity"></activity>
+            android:name=".activities.ComingSoonActivity" />
+        <activity android:name=".activities.AppsAdsActivity"
+            android:parentActivityName=".activities.MainActivity"></activity>
     </application>
 
 </manifest>

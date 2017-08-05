@@ -50,11 +50,10 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     private Toolbar toolbar;
     private ActionBarDrawerToggle drawerToggle;
     private DrawerLayout drawerLayout;
-    private RecyclerView recyclerView;
     private SuperRecyclerView feedsView;
-    private Button logout;
     private TextView headerContent;
     private ImageView headerImage;
+    private ImageView appsAds;
 
     private NewsFeedResponse newsFeedResponse;
     private NewsFeedAdapter feedAdapter;
@@ -85,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         loadFeeds();
         loadFeedHeaderContent();
         initAds();
-        //startActivity(new Intent(MainActivity.this, AppsAdsActivity.class));
     }
 
     private void initAds() {
@@ -156,7 +154,16 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         rateAppMenu = (LinearLayout)findViewById(R.id.rate_app);
         headerContent = (TextView)findViewById(R.id.header_text);
         headerImage = (ImageView)findViewById(R.id.header_image);
+        appsAds = (ImageView)findViewById(R.id.apps_ads);
 
+        if (messageType.equals("ALERT")) {
+            final int sdk = android.os.Build.VERSION.SDK_INT;
+            if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                appsAds.setBackgroundDrawable( getResources().getDrawable(R.drawable.ripple_effect_red_color) );
+            } else {
+                appsAds.setBackground( getResources().getDrawable(R.drawable.ripple_effect_red_color));
+            }
+        }
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         feedsView.setLayoutManager(layoutManager);
@@ -170,6 +177,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         photoGalleryMenu.setOnClickListener(this);
         appShareMenu.setOnClickListener(this);
         rateAppMenu.setOnClickListener(this);
+        appsAds.setOnClickListener(this);
         feedsView.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -280,7 +288,8 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
             case R.id.jokes: openJokesActivity();break;
             case R.id.entertainment: openEntertainmentActivity(); break;
             case R.id.photo_gallery: openPhotoGalleryActivity(); break;
-            case R.id.share_app: openSharingDialog();
+            case R.id.share_app: openSharingDialog(); break;
+            case R.id.apps_ads: openAppsAdsActivity(); break;
         }
     }
 
@@ -316,9 +325,12 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         startActivity(Intent.createChooser(sharingIntent, "ऐप शेयर करें"));
     }
 
+    private void openAppsAdsActivity() {
+        startActivity(new Intent(MainActivity.this, AppsAdsActivity.class));
+    }
+
     @Override
     public void onDrawerSlide(View drawerView, float slideOffset) {
-
     }
 
     @Override

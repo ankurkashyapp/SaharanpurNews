@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="kashapps.news.saharanpur.activities.AppsAdsActivity">
+    tools:context="kashapps.news.saharanpur.activities.AppsAdsActivity"
+    android:id="@+id/ad_viewer">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -16,22 +17,155 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/ThemeOverlay.AppCompat.Dark"
-            android:elevation="0dp"
-            app:title="हंसी मजाक"
-            app:layout_scrollFlags="scroll|enterAlways"/>
+            android:elevation="0dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Apps"
+                    android:textStyle="bold"
+                    android:layout_centerVertical="true"
+                    android:textColor="@android:color/white"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 
-    <com.google.android.gms.ads.NativeExpressAdView
-        xmlns:ads="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/adView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        ads:adUnitId="ca-app-pub-3940256099942544/2793859312"
-        ads:adSize="320x150"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true">
-    </com.google.android.gms.ads.NativeExpressAdView>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/appBarLayout">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.google.android.gms.ads.NativeExpressAdView
+                xmlns:ads="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/adView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                ads:adUnitId="@string/native_add_unit_id"
+                ads:adSize="360x100">
+            </com.google.android.gms.ads.NativeExpressAdView>
 
+            <com.google.android.gms.ads.NativeExpressAdView
+                xmlns:ads="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/adView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/adView"
+                android:layout_marginTop="2dp"
+                ads:adUnitId="@string/native_add_unit_id"
+                ads:adSize="360x100">
+            </com.google.android.gms.ads.NativeExpressAdView>
+
+            <com.google.android.gms.ads.NativeExpressAdView
+                xmlns:ads="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/adView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                ads:adUnitId="@string/native_add_unit_id"
+                ads:adSize="360x100"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/adView1"
+                android:layout_marginTop="2dp">
+            </com.google.android.gms.ads.NativeExpressAdView>
+
+            <com.google.android.gms.ads.NativeExpressAdView
+                xmlns:ads="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/adView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/adView2"
+                android:layout_marginTop="2dp"
+                ads:adUnitId="@string/native_add_unit_id"
+                ads:adSize="360x100">
+            </com.google.android.gms.ads.NativeExpressAdView>
+
+            <com.google.android.gms.ads.NativeExpressAdView
+                xmlns:ads="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/adView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/adView3"
+                android:layout_marginTop="2dp"
+                ads:adUnitId="@string/native_add_unit_id"
+                ads:adSize="360x100">
+            </com.google.android.gms.ads.NativeExpressAdView>
+
+            <com.google.android.gms.ads.NativeExpressAdView
+                xmlns:ads="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/adView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/adView4"
+                android:layout_marginTop="2dp"
+                ads:adUnitId="@string/native_add_unit_id"
+                ads:adSize="360x100">
+            </com.google.android.gms.ads.NativeExpressAdView>
+
+            <com.google.android.gms.ads.NativeExpressAdView
+                xmlns:ads="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/adView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/adView5"
+                android:layout_marginTop="2dp"
+                ads:adUnitId="@string/native_add_unit_id"
+                ads:adSize="360x100">
+            </com.google.android.gms.ads.NativeExpressAdView>
+
+            <com.google.android.gms.ads.NativeExpressAdView
+                xmlns:ads="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/adView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/adView6"
+                android:layout_marginTop="2dp"
+                ads:adUnitId="@string/native_add_unit_id"
+                ads:adSize="360x100">
+            </com.google.android.gms.ads.NativeExpressAdView>
+
+            <com.google.android.gms.ads.NativeExpressAdView
+                xmlns:ads="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/adView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/adView7"
+                android:layout_marginTop="2dp"
+                ads:adUnitId="@string/native_add_unit_id"
+                ads:adSize="360x100">
+            </com.google.android.gms.ads.NativeExpressAdView>
+
+            <com.google.android.gms.ads.NativeExpressAdView
+                xmlns:ads="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/adView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/adView8"
+                android:layout_marginTop="2dp"
+                ads:adUnitId="@string/native_add_unit_id"
+                ads:adSize="360x100">
+            </com.google.android.gms.ads.NativeExpressAdView>
+
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>
