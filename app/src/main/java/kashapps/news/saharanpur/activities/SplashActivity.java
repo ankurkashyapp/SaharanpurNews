@@ -17,16 +17,12 @@ import kashapps.news.saharanpur.models.News;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private TextView cityTitle;
     private FeedHeaderContentResponse feedHeaderContentResponse;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         MobileAds.initialize(this, "ca-app-pub-9635370788019972~2952124061");
-        Typeface hindiFont = Typeface.createFromAsset(getAssets(), "fonts/CVKunjBt.ttf");
-        cityTitle = (TextView)findViewById(R.id.city_title);
-        cityTitle.setTypeface(hindiFont);
         loadFeedHeaderContent();
     }
 

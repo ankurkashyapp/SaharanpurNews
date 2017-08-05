@@ -43,8 +43,8 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
     private int page;
     private int startAdFrequency = 1;
-    private int endAdFrequency = 3;
-    private int currentAdFrequency = 2;
+    private int endAdFrequency = 5;
+    private int currentAdFrequency = 1;
     private boolean shouldIncrease = true;
 
     private Toolbar toolbar;
@@ -224,17 +224,6 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     }
 
     private void loadFeedHeaderContent() {
-        /*News.getFeedHeaderContent("Saharanpur News", "1", new News.FeedHeaderLoad() {
-            @Override
-            public void onFeedHeaderContentLoaded(FeedHeaderContentResponse contentResponse) {
-                headerContent.setText(contentResponse.getThought().getThought_of_day());
-            }
-
-            @Override
-            public void onFeedNotLoaded() {
-                Log.e("********************", "Failre in header");
-            }
-        });*/
         if (messageType.equals("ALERT")) {
             headerImage.setVisibility(View.VISIBLE);
             headerContent.setText("ध्यान दें! आप इस ऐप के पुराने संस्करण चला रहे हैं, कृपया ऐप अपडेट करे..");
@@ -267,7 +256,20 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
     private void showInterstitialAd() {
         if (mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
+            if (currentAdFrequency == startAdFrequency || currentAdFrequency == endAdFrequency)
+                mInterstitialAd.show();
+            else
+                openNewsArticle();
+
+            if (currentAdFrequency == startAdFrequency)
+                shouldIncrease = true;
+            else if (currentAdFrequency == endAdFrequency)
+                shouldIncrease = false;
+
+            if (shouldIncrease)
+                currentAdFrequency++;
+            else
+                currentAdFrequency--;
 
         } else {
             openNewsArticle();

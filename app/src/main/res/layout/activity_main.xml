@@ -124,12 +124,37 @@
         android:background="@color/colorPrimary"
         >
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/drawer_header"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:background="@color/colorPrimaryDark"
-            android:orientation="horizontal"></LinearLayout>
+            android:background="@color/colorPrimaryDark">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/city_rly_station"
+                android:tint="@color/colorPrimaryTransparent"
+                android:scaleType="centerCrop"/>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/map"
+                android:scaleType="fitCenter"
+                android:layout_centerHorizontal="true"
+                android:padding="5dp"/>
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:src="@drawable/saharanpur_news"
+                android:scaleType="fitCenter"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true" />
+
+
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/jokes"

@@ -3,6 +3,7 @@
     <color name="colorPrimary">#143541</color>
     <color name="colorPrimaryDark">#112d38</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimaryTransparent">#da143541</color>
 
     <color name="blackTrasnparent">#8f080808</color>
     <color name="blackDark">#f7080808</color>
@@ -12,6 +13,7 @@
 
     <color name="red">#b71c1c</color>
     <color name="redDark">#a71a1a</color>
+    <color name="whiteTransparent">#a2e2e1e1</color>
 
 
 </resources>
