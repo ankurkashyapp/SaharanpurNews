@@ -1,5 +1,6 @@
 package kashapps.news.saharanpur.activities;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.support.v7.app.AppCompatActivity;
@@ -18,7 +19,7 @@ import kashapps.news.saharanpur.R;
 import kashapps.news.saharanpur.api.responses.FeedContent;
 import kashapps.news.saharanpur.models.News;
 
-public class NewsArticleViewActivity extends AppCompatActivity {
+public class NewsArticleViewActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String NEWS_ID = "news_id";
     private String newsId;
 
@@ -27,6 +28,7 @@ public class NewsArticleViewActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private ProgressBar loading;
     private TextView headline;
+    private ImageView shareNews;
     private TextView articleDate;
     private ImageView articleImage;
     private TextView articleDetail;
@@ -63,6 +65,7 @@ public class NewsArticleViewActivity extends AppCompatActivity {
     {
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         loading = (ProgressBar)findViewById(R.id.loading);
+        shareNews = (ImageView)findViewById(R.id.share_news);
         headline = (TextView)findViewById(R.id.feed_headline);
         articleDate = (TextView)findViewById(R.id.feed_date);
         articleImage = (ImageView) findViewById(R.id.feed_image);
@@ -80,6 +83,7 @@ public class NewsArticleViewActivity extends AppCompatActivity {
 
         loading.setVisibility(View.VISIBLE);
         loading.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        shareNews.setOnClickListener(this);
     }
 
     private void loadNewsArticle() {
@@ -101,7 +105,24 @@ public class NewsArticleViewActivity extends AppCompatActivity {
     private void setupArticleData() {
         headline.setText(newsArticle.getTitle());
         articleDate.setText(newsArticle.getDate());
-        Picasso.with(getApplicationContext()).load(newsArticle.getImage()).into(articleImage);
+        if (!"http://www.jagranimages.com/images/jagran_logo.jpg".equals(newsArticle.getImage()))
+            Picasso.with(getApplicationContext()).load(newsArticle.getImage()).into(articleImage);
         articleDetail.setText(newsArticle.getSummary());
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.share_news: if (newsArticle != null) openSharingDialog(); break;
+        }
+    }
+
+    private void openSharingDialog() {
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        String shareBodyText = newsArticle.getTitle() + "\n\n" + newsArticle.getSummary() + "\n\n" + getResources().getString(R.string.app_url);
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,"न्यूज़ शेयर करें");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
+        startActivity(Intent.createChooser(sharingIntent, "न्यूज़ शेयर करें"));
     }
 }

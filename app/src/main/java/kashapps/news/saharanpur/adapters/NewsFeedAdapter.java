@@ -72,7 +72,10 @@ public class NewsFeedAdapter extends BaseSwipeAdapter<BaseSwipeAdapter.BaseSwipe
         else {
             FeedContent feedContent = feedResponse.getContent().get(position + PAGER_ITEMS_COUNT - 1);
             FeedItemViewHolder itemViewHolder = (FeedItemViewHolder)holder;
-            Picasso.with(context).load(feedContent.getImage()).into(itemViewHolder.imageView);
+            if (!"http://images.jagran.com/images/jagran_logo_s.jpg".equals(feedContent.getImage()))
+                Picasso.with(context).load(feedContent.getImage()).into(itemViewHolder.imageView);
+            else
+                Picasso.with(context).load(R.mipmap.no_image_icon).into(itemViewHolder.imageView);
             itemViewHolder.title.setText(feedContent.getTitle());
             itemViewHolder.summary.setText(feedContent.getSummary());
             itemViewHolder.feedDate.setText(feedContent.getDate());

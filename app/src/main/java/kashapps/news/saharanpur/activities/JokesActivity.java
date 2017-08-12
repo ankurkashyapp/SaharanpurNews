@@ -10,8 +10,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.malinskiy.superrecyclerview.OnMoreListener;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
 
@@ -24,14 +26,20 @@ import kashapps.news.saharanpur.models.News;
 
 public class JokesActivity extends AppCompatActivity implements JokesListAdapter.JokeItemClickListener{
     private int page;
+    private int startAdFrequency = 1;
+    private int endAdFrequency = 4;
+    private int currentAdFrequency = 2;
+    private boolean shouldIncrease = true;
 
     private Toolbar toolbar;
     private SuperRecyclerView jokesList;
 
     private List<JokesResponse> jokesResponses;
     private JokesListAdapter jokesListAdapter;
+    private JokesResponse jokesResponse;
 
     private AdView adView;
+    private InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +88,40 @@ public class JokesActivity extends AppCompatActivity implements JokesListAdapter
                 loadAllJokes();
             }
         });
+        initInterstitialAd();
+    }
+
+    private void initInterstitialAd() {
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.loadAd(getAdRequest());
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                Log.i("Ads", "onAdLoaded");
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                Log.i("Ads", "onAdFailedToLoad");
+            }
+
+            @Override
+            public void onAdOpened() {
+                Log.i("Ads", "onAdOpened");
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                Log.i("Ads", "onAdLeftApplication");
+            }
+
+            @Override
+            public void onAdClosed() {
+                mInterstitialAd.loadAd(getAdRequest());
+                openJoke();
+            }
+        });
     }
 
     private void loadAllJokes() {
@@ -121,7 +163,33 @@ public class JokesActivity extends AppCompatActivity implements JokesListAdapter
     @Override
     public void onJokeClick(View itemView) {
         int position = jokesList.getRecyclerView().getChildLayoutPosition(itemView);
-        JokesResponse jokesResponse = jokesResponses.get(position);
+        jokesResponse = jokesResponses.get(position);
+        showInterstitialAd();
+    }
+
+    private void showInterstitialAd() {
+        if (mInterstitialAd.isLoaded()) {
+            if (currentAdFrequency == startAdFrequency || currentAdFrequency == endAdFrequency)
+                mInterstitialAd.show();
+            else
+                openJoke();
+
+            if (currentAdFrequency == startAdFrequency)
+                shouldIncrease = true;
+            else if (currentAdFrequency == endAdFrequency)
+                shouldIncrease = false;
+
+            if (shouldIncrease)
+                currentAdFrequency++;
+            else
+                currentAdFrequency--;
+
+        } else {
+            openJoke();
+        }
+    }
+
+    private void openJoke() {
         String link = jokesResponse.getLink();
         String jokeId = link.substring(link.lastIndexOf('-')+1, link.lastIndexOf('.'));
         String title = jokesResponse.getTitle();
@@ -129,6 +197,5 @@ public class JokesActivity extends AppCompatActivity implements JokesListAdapter
         intent.putExtra("JOKE_ID", jokeId);
         intent.putExtra("JOKE_TITLE", title);
         startActivity(intent);
-        Toast.makeText(getApplicationContext(), jokesResponse.getTitle(), Toast.LENGTH_SHORT).show();
     }
 }

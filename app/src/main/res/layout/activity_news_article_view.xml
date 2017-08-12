@@ -32,13 +32,26 @@
                 android:textColor="@android:color/white"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
 
+                <ImageView
+                    android:id="@+id/share_news"
+                    android:layout_width="60dp"
+                    android:layout_height="55dp"
+                    android:src="@mipmap/share"
+                    android:tint="@color/greyLight"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_centerVertical="true"
+                    android:padding="15dp"
+                    android:background="@drawable/ripple_effect_primary_color"
+                    android:clickable="true"/>
+
             <ProgressBar
                 android:id="@+id/loading"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="15dp"
-                android:layout_centerVertical="true"/>
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/share_news"
+                android:layout_marginRight="10dp"/>
 
             </RelativeLayout>
 
@@ -94,7 +107,7 @@
                 android:layout_height="300dp"
                 android:scaleType="fitCenter"
                 android:layout_below="@+id/feed_date"
-                />
+                android:src="@mipmap/no_image_icon"/>
 
             <TextView
                 android:id="@+id/feed_detail"

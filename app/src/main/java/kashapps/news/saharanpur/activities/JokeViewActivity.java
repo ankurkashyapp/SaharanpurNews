@@ -118,8 +118,8 @@ public class JokeViewActivity extends AppCompatActivity implements View.OnClickL
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
         String shareBodyText = singleJokeResponse.getJoke_content();
-        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,"ऐप शेयर करें");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,"जोक शेयर करें");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
-        startActivity(Intent.createChooser(sharingIntent, "ऐप शेयर करें"));
+        startActivity(Intent.createChooser(sharingIntent, "जोक शेयर करें"));
     }
 }

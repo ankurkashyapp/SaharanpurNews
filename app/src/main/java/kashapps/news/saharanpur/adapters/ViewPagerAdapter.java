@@ -52,7 +52,10 @@ public class ViewPagerAdapter extends PagerAdapter {
 
         ImageView imageView = (ImageView) itemView.findViewById(R.id.img_pager_item);
         TextView title = (TextView)itemView.findViewById(R.id.title_pager_item);
-        Picasso.with(mContext).load(feedContent.getImage()).into(imageView);
+        if (!"http://images.jagran.com/images/jagran_logo_s.jpg".equals(feedContent.getImage()))
+            Picasso.with(mContext).load(feedContent.getImage()).into(imageView);
+        else
+            Picasso.with(mContext).load(R.mipmap.no_image_icon).into(imageView);
         title.setText(feedContent.getTitle());
         container.addView(itemView);
 

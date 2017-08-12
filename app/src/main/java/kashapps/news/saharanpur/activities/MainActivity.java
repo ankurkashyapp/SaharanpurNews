@@ -1,22 +1,19 @@
 package kashapps.news.saharanpur.activities;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,27 +27,24 @@ import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import kashapps.news.saharanpur.R;
 import kashapps.news.saharanpur.adapters.NewsFeedAdapter;
 import kashapps.news.saharanpur.adapters.ViewPagerAdapter;
-import kashapps.news.saharanpur.api.RestClient;
 import kashapps.news.saharanpur.api.responses.FeedContent;
 import kashapps.news.saharanpur.api.responses.FeedHeaderContentResponse;
 import kashapps.news.saharanpur.api.responses.NewsFeedResponse;
 import kashapps.news.saharanpur.models.News;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements DrawerLayout.DrawerListener, View.OnClickListener, NewsFeedAdapter.FeedItemClickListener, ViewPagerAdapter.PagerItemClickListener{
 
     private int page;
     private int startAdFrequency = 1;
-    private int endAdFrequency = 5;
-    private int currentAdFrequency = 1;
+    private int endAdFrequency = 4;
+    private int currentAdFrequency = 2;
     private boolean shouldIncrease = true;
 
     private Toolbar toolbar;
     private ActionBarDrawerToggle drawerToggle;
     private DrawerLayout drawerLayout;
     private SuperRecyclerView feedsView;
+    private LinearLayout messageTop;
     private TextView headerContent;
     private ImageView headerImage;
     private ImageView appsAds;
@@ -69,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     private LinearLayout photoGalleryMenu;
     private LinearLayout appShareMenu;
     private LinearLayout rateAppMenu;
+    private LinearLayout connectFB;
 
     private AdView adView;
     private InterstitialAd mInterstitialAd;
@@ -152,7 +147,9 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         photoGalleryMenu = (LinearLayout)findViewById(R.id.photo_gallery);
         appShareMenu = (LinearLayout)findViewById(R.id.share_app);
         rateAppMenu = (LinearLayout)findViewById(R.id.rate_app);
+        connectFB = (LinearLayout)findViewById(R.id.connect_fb);
         headerContent = (TextView)findViewById(R.id.header_text);
+        messageTop = (LinearLayout)findViewById(R.id.message_top);
         headerImage = (ImageView)findViewById(R.id.header_image);
         appsAds = (ImageView)findViewById(R.id.apps_ads);
 
@@ -177,6 +174,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         photoGalleryMenu.setOnClickListener(this);
         appShareMenu.setOnClickListener(this);
         rateAppMenu.setOnClickListener(this);
+        connectFB.setOnClickListener(this);
         appsAds.setOnClickListener(this);
         feedsView.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -226,7 +224,15 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     private void loadFeedHeaderContent() {
         if (messageType.equals("ALERT")) {
             headerImage.setVisibility(View.VISIBLE);
-            headerContent.setText("ध्यान दें! आप इस ऐप के पुराने संस्करण चला रहे हैं, कृपया ऐप अपडेट करे..");
+            headerContent.setText("ध्यान दीजिए! आप इस ऐप के पुराने वर्ज़न(संस्करण) को चला रहें हैं। बेहतर अनुभव के लिए अपना ऐप अपडेट करें। अपडेट करने के लिए क्लिक करे..");
+            messageTop.setBackground( getResources().getDrawable(R.drawable.ripple_effect_red_color));
+            messageTop.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.app_url)));
+                    startActivity(intent);
+                }
+            });
         }
         else {
             headerContent.setText("आज का शुभ विचार: " + thought);
@@ -249,7 +255,6 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
     @Override
     public void onPagerItemClick(View view, int position) {
-        Toast.makeText(MainActivity.this, newsFeedResponse.getContent().get(position).getTitle(), Toast.LENGTH_SHORT).show();
         this.feedContent = newsFeedResponse.getContent().get(position);
         showInterstitialAd();
     }
@@ -291,6 +296,8 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
             case R.id.entertainment: openEntertainmentActivity(); break;
             case R.id.photo_gallery: openPhotoGalleryActivity(); break;
             case R.id.share_app: openSharingDialog(); break;
+            case R.id.rate_app: openPlayStore(); break;
+            case R.id.connect_fb: openFacebookPage(); break;
             case R.id.apps_ads: openAppsAdsActivity(); break;
         }
     }
@@ -305,7 +312,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         drawerLayout.closeDrawer(Gravity.LEFT);
         Intent intent = new Intent(MainActivity.this, ComingSoonActivity.class);
         intent.putExtra("TITLE", "मनोरंजन");
-        intent.putExtra("DESCRIPTION", "जुड़े रहिये हमारे साथ। जल्द आ रहा है मनोरंजन का खजाना अब सहारनपुर न्यूज ऐप में");
+        intent.putExtra("DESCRIPTION", "जुड़े रहिये हमारे साथ। जल्द आ रहा है मनोरंजन का खजाना अब सहारनपुर न्यूज़ ऐप में");
         startActivity(intent);
     }
 
@@ -321,10 +328,22 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         drawerLayout.closeDrawer(Gravity.LEFT);
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
-        String shareBodyText = "Check it out. Your message goes here";
+        String shareBodyText = "आ गया है सहारनपुर जिले का अपना न्यूज़ ऐप!!! अब पाएं सहारनपुर जिले की हर छोटी बड़ी खबर अपने मोबाइल पर। अभी डाउनलोड करें सहारनपुर न्यूज़ ऐप।\n" + getResources().getString(R.string.app_url);
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,"ऐप शेयर करें");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
         startActivity(Intent.createChooser(sharingIntent, "ऐप शेयर करें"));
+    }
+
+    private void openPlayStore() {
+        drawerLayout.closeDrawer(Gravity.LEFT);
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.app_url)));
+        startActivity(intent);
+    }
+
+    private void openFacebookPage() {
+        drawerLayout.closeDrawer(Gravity.LEFT);
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.facebook_page_url)));
+        startActivity(intent);
     }
 
     private void openAppsAdsActivity() {
