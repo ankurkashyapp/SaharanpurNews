@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
     private void initInterstitialAd() {
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.setAdUnitId("ca-app-pub-9635370788019972/2046236508");
         mInterstitialAd.loadAd(getAdRequest());
         mInterstitialAd.setAdListener(new AdListener() {
             @Override
@@ -126,7 +126,6 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
     private AdRequest getAdRequest() {
         AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice("404823443BAEF9FEA7ACD240FE2A003C")
                 .build();
         return adRequest;
     }
@@ -248,7 +247,6 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     public void onFeedItemClick(View view) {
         int position = feedsView.getRecyclerView().getChildLayoutPosition(view);
         this.feedContent = newsFeedResponse.getContent().get(position + NewsFeedAdapter.PAGER_ITEMS_COUNT - 1);
-        Toast.makeText(MainActivity.this, feedContent.getTitle(), Toast.LENGTH_SHORT).show();
         showInterstitialAd();
 
     }

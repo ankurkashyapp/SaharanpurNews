@@ -111,14 +111,27 @@
                 android:paddingTop="10dp"
                 android:textStyle="bold"
                 android:textSize="20sp"
-                android:layout_below="@+id/top_content"/>
+                android:layout_below="@+id/top_content" />
 
             <ImageView
+                android:id="@+id/smiley_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:src="@mipmap/smile_img"
-                android:layout_below="@+id/joke_description"/>
+                android:layout_below="@+id/joke_description" />
+
+            <TextView
+                android:id="@+id/joke_credit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="@color/blackLight"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/smiley_icon"
+                android:text="Credit: Dainik Jagran"
+                android:layout_marginTop="5dp"
+                android:visibility="gone"/>
 
             </RelativeLayout>
 
@@ -132,7 +145,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+        ads:adUnitId="ca-app-pub-9635370788019972/4426611976">
     </com.google.android.gms.ads.AdView>
 
 </RelativeLayout>

@@ -61,7 +61,6 @@ public class JokesActivity extends AppCompatActivity implements JokesListAdapter
 
     private AdRequest getAdRequest() {
         AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice("404823443BAEF9FEA7ACD240FE2A003C")
                 .build();
         return adRequest;
     }
@@ -93,7 +92,7 @@ public class JokesActivity extends AppCompatActivity implements JokesListAdapter
 
     private void initInterstitialAd() {
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.setAdUnitId("ca-app-pub-9635370788019972/6736246398");
         mInterstitialAd.loadAd(getAdRequest());
         mInterstitialAd.setAdListener(new AdListener() {
             @Override

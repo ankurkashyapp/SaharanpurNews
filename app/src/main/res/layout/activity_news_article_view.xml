@@ -89,7 +89,8 @@
                 android:layout_marginLeft="5dp"
                 android:layout_below="@+id/feed_headline"
                 android:layout_marginBottom="3dp"
-                android:text="Credit: Dainik Jagran | "/>
+                android:text="Credit: Dainik Jagran | "
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/feed_date"
@@ -97,8 +98,8 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/news_credit"
                 android:layout_below="@+id/feed_headline"
-                android:layout_marginBottom="3dp"
-                android:layout_marginLeft="3dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
                 android:textColor="@color/blackLight"/>
 
             <ImageView
@@ -117,7 +118,7 @@
                 android:padding="10dp"
                 android:layout_below="@+id/feed_image"
                 android:textStyle="bold"
-                android:lineSpacingExtra="5dp"/>
+                android:lineSpacingExtra="7dp"/>
 
 
         </RelativeLayout>
@@ -131,7 +132,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+        ads:adUnitId="ca-app-pub-9635370788019972/8592075931">
     </com.google.android.gms.ads.AdView>
 
 </android.support.design.widget.CoordinatorLayout>

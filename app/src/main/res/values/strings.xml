@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Saharanpur News</string>
-    <string name="native_add_unit_id">ca-app-pub-3940256099942544/2793859312</string>
+    <string name="facebook_app_id">245950589137898</string>
+    <string name="native_add_unit_id">ca-app-pub-9635370788019972/5921502957</string>
     <string name="app_url">https://play.google.com/store/apps/details?id=kashapps.news.saharanpur</string>
     <string name="facebook_page_url">https://www.facebook.com/saharanpurlocalnews</string>
 </resources>

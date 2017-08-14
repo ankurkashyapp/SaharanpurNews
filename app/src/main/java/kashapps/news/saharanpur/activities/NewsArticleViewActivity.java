@@ -56,7 +56,6 @@ public class NewsArticleViewActivity extends AppCompatActivity implements View.O
 
     private AdRequest getAdRequest() {
         AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice("404823443BAEF9FEA7ACD240FE2A003C")
                 .build();
         return adRequest;
     }
